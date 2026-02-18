@@ -9,6 +9,7 @@ public class PalindromeCheckerApp {
             String input = scanner.nextLine();
 
             boolean isPalindrome = checkPalindrome(input);
+           //uc1
             System.out.println("process initialized");
 
             System.out.println("Is it a Palindrome? : " + isPalindrome);
@@ -24,5 +25,6 @@ public class PalindromeCheckerApp {
             return cleanedText.equals(reversedText);
         }
     }
+
 
 
