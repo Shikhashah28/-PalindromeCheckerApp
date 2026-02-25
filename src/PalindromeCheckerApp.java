@@ -1,49 +1,42 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
-    public class PalindromeCheckerApp{
 
-        public static void main(String[] args) {
+public class PalindromeCheckerApp{
 
-            Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
 
-            System.out.print("Enter a word: ");
-            String word = sc.next();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a word: ");
+        String word = sc.next();
 
-            Queue<Character> queue = new LinkedList<>();
-            Stack<Character> stack = new Stack<>();
+        Deque<Character> deque = new ArrayDeque<>();
 
+        // Insert characters into deque
+        for (int i = 0; i < word.length(); i++) {
+            deque.addLast(word.charAt(i));
+        }
 
-            for (char ch : word.toCharArray()) {
-                queue.add(ch);
-                stack.push(ch);
-            }
+        boolean isPalindrome = true;
 
-            boolean isPalindrome = true;
+        // Compare front and rear
+        while (deque.size() > 1) {
+            char front = deque.removeFirst();
+            char rear = deque.removeLast();
 
-            System.out.println("Comparing Dequeue (Queue) and Pop (Stack):");
-
-            // Compare dequeue and pop
-            while (!queue.isEmpty()) {
-                char fromQueue = queue.remove();   // Dequeue
-                char fromStack = stack.pop();      // Pop
-
-                System.out.println(fromQueue + " - " + fromStack);
-
-                if (fromQueue != fromStack) {
-                    isPalindrome = false;
-                }
-            }
-
-            // Result
-            if (isPalindrome) {
-                System.out.println(word + " is a Palindrome.");
-            } else {
-                System.out.println(word + " is NOT a Palindrome.");
+            if (front != rear) {
+                isPalindrome = false;
+                break;
             }
         }
+
+        // Result
+        if (isPalindrome) {
+            System.out.println(word + " is a Palindrome.");
+        } else {
+            System.out.println(word + " is NOT a Palindrome.");
+        }
+
+        sc.close();
     }
-
-
-
+}
