@@ -1,8 +1,15 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Scanner;
 
-public class PalindromeCheckerApp{
+class Node {
+    char data;
+    Node next;
+
+    Node(char data) {
+        this.data = data;
+    }
+}
+
+public class PalindromeCheckerApp{G
 
     public static void main(String[] args) {
 
@@ -10,32 +17,55 @@ public class PalindromeCheckerApp{
         System.out.print("Enter a word: ");
         String word = sc.next();
 
-        Deque<Character> deque = new ArrayDeque<>();
+        // Convert string to linked list
+        Node head = null, temp = null;
 
-        // Insert characters into deque
         for (int i = 0; i < word.length(); i++) {
-            deque.addLast(word.charAt(i));
-        }
+            Node newNode = new Node(word.charAt(i));
 
-        boolean isPalindrome = true;
-
-        // Compare front and rear
-        while (deque.size() > 1) {
-            char front = deque.removeFirst();
-            char rear = deque.removeLast();
-
-            if (front != rear) {
-                isPalindrome = false;
-                break;
+            if (head == null) {
+                head = newNode;
+                temp = newNode;
+            } else {
+                temp.next = newNode;
+                temp = newNode;
             }
         }
 
-        // Result
-        if (isPalindrome) {
-            System.out.println(word + " is a Palindrome.");
-        } else {
-            System.out.println(word + " is NOT a Palindrome.");
+        // Find middle using slow & fast pointer
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
+
+        // Reverse second half
+        Node prev = null, current = slow, next;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        // Compare first half and reversed second half
+        Node first = head;
+        Node second = prev;
+        boolean isPalindrome = true;
+
+        while (second != null) {
+            if (first.data != second.data) {
+                isPalindrome = false;
+                break;
+            }
+            first = first.next;
+            second = second.next;
+        }
+
+        if (isPalindrome)
+            System.out.println(word + " is a Palindrome.");
+        else
+            System.out.println(word + " is NOT a Palindrome.");
 
         sc.close();
     }
